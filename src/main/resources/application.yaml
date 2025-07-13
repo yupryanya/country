@@ -1,6 +1,9 @@
 spring:
   application:
     name: country
+  graphql:
+    graphiql:
+      enabled: true
   datasource:
     username: postgres
     password: secret
