@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import guru.qa.country.data.mapper.CoordinatesParser;
 
 import java.util.UUID;
 
@@ -18,11 +19,16 @@ public class DbCountryGqlService implements CountryGqlService {
 
   private final CountryRepository countryRepository;
   private final CountryGqlMapper mapper;
+  private final CoordinatesParser coordinatesParser;
 
   @Autowired
-  public DbCountryGqlService(CountryRepository countryRepository, CountryGqlMapper mapper) {
+  public DbCountryGqlService(CountryRepository countryRepository,
+                             CountryGqlMapper mapper,
+                             CoordinatesParser coordinatesParser
+  ) {
     this.countryRepository = countryRepository;
     this.mapper = mapper;
+    this.coordinatesParser = coordinatesParser;
   }
 
   @Override
@@ -36,7 +42,7 @@ public class DbCountryGqlService implements CountryGqlService {
     CountryEntity existingEntity = countryRepository.findByIsoCode(input.isoCode())
         .map(country -> {
           country.setCountryName(input.countryName());
-          country.setCoordinates(mapper.parseCoordinates(input.coordinates()));
+          country.setCoordinates(coordinatesParser.parse(input.coordinates()));
           return country;
         })
         .orElseThrow(() -> new IllegalArgumentException("Country not found with ISO code: " + input.isoCode()));
