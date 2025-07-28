@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package guru.qa.country;
+
+option java_multiple_files = true;
+option java_package = "guru.qa.country";
+option java_outer_classname = "CountryProto";
+
+service CountryService {
+  rpc Country(IdRequest) returns (CountryResponse);
+  rpc CountryByCode(IsoCodeRequest) returns (CountryResponse);
+  rpc AddCountry(CountryRequest) returns (CountryResponse);
+  rpc AddCountries(stream CountryRequest) returns (AddCountriesResponse);
+}
+
+message IdRequest {
+  string id = 1;
+}
+
+message IsoCodeRequest {
+  string isoCode = 1;
+}
+
+message CountryRequest {
+  string countryName = 1;
+  string isoCode = 2;
+  string coordinates = 3;
+}
+
+message CountryResponse {
+  string id = 1;
+  string countryName = 2;
+  string isoCode = 3;
+  string coordinates = 4;
+}
+
+message AddCountriesResponse {
+  int32 totalAdded = 1;
+}

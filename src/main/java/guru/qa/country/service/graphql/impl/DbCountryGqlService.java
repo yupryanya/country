@@ -2,6 +2,7 @@ package guru.qa.country.service.graphql.impl;
 
 import guru.qa.country.data.CountryEntity;
 import guru.qa.country.data.CountryRepository;
+import guru.qa.country.data.mapper.CoordinatesParser;
 import guru.qa.country.data.mapper.CountryGqlMapper;
 import guru.qa.country.domain.graphql.CountryGql;
 import guru.qa.country.domain.graphql.CountryInputGql;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import guru.qa.country.data.mapper.CoordinatesParser;
 
 import java.util.UUID;
 
@@ -55,6 +55,13 @@ public class DbCountryGqlService implements CountryGqlService {
     return countryRepository.findById(uuid)
         .map(mapper::fromEntity)
         .orElseThrow(() -> new IllegalArgumentException("Country not found with id: " + id));
+  }
+
+  @Override
+  public CountryGql countryByCode(String code) {
+    return countryRepository.findByIsoCode(code)
+        .map(mapper::fromEntity)
+        .orElseThrow(() -> new IllegalArgumentException("Country not found with ISO code: " + code));
   }
 
   @Override
