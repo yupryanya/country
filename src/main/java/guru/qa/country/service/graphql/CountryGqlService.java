@@ -2,8 +2,8 @@ package guru.qa.country.service.graphql;
 
 import guru.qa.country.domain.graphql.CountryGql;
 import guru.qa.country.domain.graphql.CountryInputGql;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 
 public interface CountryGqlService {
   CountryGql addCountry(CountryInputGql input);
@@ -14,5 +14,5 @@ public interface CountryGqlService {
 
   CountryGql countryByCode(String code);
 
-  Slice<CountryGql> allCountries(Pageable pageable);
+  Page<CountryGql> allCountries(Pageable pageable);
 }
