@@ -40,3 +40,6 @@ spring:
     open-in-view: false
 server:
   port: 8283
+
+country-ws:
+  base-uri: 'http://127.0.0.1:8283'
